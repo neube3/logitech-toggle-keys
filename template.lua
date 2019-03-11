@@ -31,23 +31,22 @@ function OnEvent(event, arg)
     end
     for k,v in pairs(keysetup) do
       if (arg == v[1] and k ~= null) then
-          if (keyspressed[k] == true) then
-            ReleaseKey(k);
-            keyspressed[k] = false;
-            OutputLogMessage("Recieved %s %d released %s\n",event,v[1],k);
-            OutputLCDMessage(string.format("Pressing %s",k));
-          else
-            for i=0,v[2] do
-              PressKey(k);
-              Sleep(tap_hold_delay);
-              ReleaseKey(k);
-              Sleep(tap_delay);
-            end
+        if (keyspressed[k] == true) then
+          ReleaseKey(k);
+          keyspressed[k] = false;
+          OutputLogMessage("Recieved %s %d released %s\n",event,v[1],k);
+          OutputLCDMessage(string.format("Pressing %s",k));
+        else
+          for i=0,v[2] do
             PressKey(k);
-            keyspressed[k] = true;
-            OutputLogMessage("Recieved %s %d pressed %s\n",event,v[1],k);
-            OutputLCDMessage(string.format("Releasing %s",k));
+            Sleep(tap_hold_delay);
+            ReleaseKey(k);
+            Sleep(tap_delay);
           end
+          PressKey(k);
+          keyspressed[k] = true;
+          OutputLogMessage("Recieved %s %d pressed %s\n",event,v[1],k);
+          OutputLCDMessage(string.format("Releasing %s",k));
         end
       end
     end
